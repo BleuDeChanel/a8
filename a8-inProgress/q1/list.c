@@ -119,17 +119,12 @@ int list_len (struct list* list) {
  *    in  is an element from in_list
  */
 void list_map1 (void (*f) (element_t*, element_t), struct list* out_list, struct list* in_list) {
-  // TODO
-	// what does it mean by by appending?
-	// what is out_list really?
-	for (int i = 0; i < in_list->len; i++) {
-		if (*(out_list->data)) == NULL{
-		// not sure what it means by assign it a value calling malloc.
-			out_list->data  = malloc (sizeof (element_t) * in_list->len);
-			out_list->len = in_list->len;
-			out_list->size = in_list->size;
-		}
-		f (out_list->data, in_list[i]);
+	out_list->len = 0;
+  for (int i = 0; i < in_list->len; i++) {
+    element_t temp = 0;
+    f (&temp, list_get(in_list, i));
+    //void list_append (struct list* list, element_t element)
+		list_append(out_list, acc);
 	}
 }
 
@@ -146,7 +141,12 @@ void list_map1 (void (*f) (element_t*, element_t), struct list* out_list, struct
  *    in1  is an element from in_list1
  */
 void list_map2 (void (*f) (element_t*, element_t, element_t), struct list* out_list, struct list* in_list0, struct list* in_list1) {
-  // TODO
+  out_list->len = 0; // use in step6
+  for (int i = 0; i < if in_list0->len > in_list1->len ? in_list1->len : in_list0->len ; i++) { 
+    element_t acc = 0;
+    f (&acc, in_list0->data [i], in_list1->data [i]);
+    list_append(out_list, acc);
+  }
 }
 
 /**
@@ -161,9 +161,8 @@ void list_map2 (void (*f) (element_t*, element_t, element_t), struct list* out_l
 void list_foldl (void (*f) (element_t*, element_t, element_t), element_t* out_element_p,  struct list* in_list) {
   // TODO
 	for (int i = 0; i < in_list->len; i++) {
-		f (out_element_p, *out_element_p, in_list->data[i]);
+		f (out_element_p, *out_element_p, list_get(in_list, i));
 	}
-
 }
 
 /**
@@ -180,7 +179,7 @@ void list_filter (int (*f) (element_t), struct list* out_list, struct list* in_l
 	// what does ALIASES mean?
 	for (int i = 0; i < in_list->len; i++) {
 		if (f (in_list->data [i]) == 1) {
-			out_list->list_append(in_list->data [i]);
+			list_append(out_list, list_get(in_list, i));
 		}
 	}
 }
