@@ -121,9 +121,8 @@ int list_len (struct list* list) {
 void list_map1 (void (*f) (element_t*, element_t), struct list* out_list, struct list* in_list) {
 	out_list->len = 0;
   for (int i = 0; i < in_list->len; i++) {
-    element_t temp = 0;
-    f (&temp, list_get(in_list, i));
-    //void list_append (struct list* list, element_t element)
+    element_t acc = 0;
+    f (&acc, list_get(in_list, i));
 		list_append(out_list, acc);
 	}
 }
@@ -142,9 +141,19 @@ void list_map1 (void (*f) (element_t*, element_t), struct list* out_list, struct
  */
 void list_map2 (void (*f) (element_t*, element_t, element_t), struct list* out_list, struct list* in_list0, struct list* in_list1) {
   out_list->len = 0; // use in step6
-  for (int i = 0; i < if in_list0->len > in_list1->len ? in_list1->len : in_list0->len ; i++) { 
+  int size = 0;
+  int len0 = list_len(in_list0);
+  int len1 = list_len(in_list1);
+  if (len0 < len1){
+    size = len0;
+  }
+  else {
+    size = len1;
+  }
+  // if in_list0->len > in_list1->len ? in_list1->len : in_list0->len
+  for (int i = 0; i < size ; i++) { 
     element_t acc = 0;
-    f (&acc, in_list0->data [i], in_list1->data [i]);
+    f (&acc, list_get(in_list0, i), list_get(in_list1, i));
     list_append(out_list, acc);
   }
 }
@@ -159,8 +168,8 @@ void list_map2 (void (*f) (element_t*, element_t, element_t), struct list* out_l
  *    in1 is an element from in_list
  */
 void list_foldl (void (*f) (element_t*, element_t, element_t), element_t* out_element_p,  struct list* in_list) {
-  // TODO
-	for (int i = 0; i < in_list->len; i++) {
+  int size = list_len(in_list);
+	for (int i = 0; i < size; i++) {
 		f (out_element_p, *out_element_p, list_get(in_list, i));
 	}
 }
@@ -175,10 +184,10 @@ void list_foldl (void (*f) (element_t*, element_t, element_t), element_t* out_el
  *    returns true (1) iff in should be included in out_list and 0 otherwise
  */
 void list_filter (int (*f) (element_t), struct list* out_list, struct list* in_list) {
-  // TODO
-	// what does ALIASES mean?
-	for (int i = 0; i < in_list->len; i++) {
-		if (f (in_list->data [i]) == 1) {
+  out_list->len = 0;
+  int size = list_len(in_list);
+	for (int i = 0; i < size; i++) {
+		if (f (list_get(in_list,i)) == 1) {
 			list_append(out_list, list_get(in_list, i));
 		}
 	}
